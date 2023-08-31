@@ -1,5 +1,6 @@
 ## This Script is for creating VPC with Subnets 
-
+<pre>
+<code>
 provider "aws" {
   region = "us-east-1"
 }
@@ -13,5 +14,6 @@ resource "aws_subnet" "subnet1" {
   cidr_block = "10.0.1.0/24"
   availability_zone = "us-west-2a"
 }
-
+</code>
+</pre>
 This script creates a VPC with a specified CIDR block and a subnet within that VPC.
