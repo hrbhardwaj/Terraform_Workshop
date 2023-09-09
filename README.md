@@ -10,3 +10,9 @@ In this Terraform script file does the following:
 *  Attaches the IAM policy to the IAM role.
 *  Defines an ECS task definition with your container image and configuration.
 *  Creates an ECS service that runs the task using Fargate launch type in the specified subnets and security group.
+
+## Script 1 
+
+This is for creation of EC2 Instance on AWS 
+
+## Script 2 
