@@ -25,7 +25,15 @@ In this Terraform script file does the following:
 
 ## Script 1 
 
-This is for creation of EC2 Instance on AWS 
+ In this file creation of EC2 Instance with (autoscale,launch config,loadbalancer)
+ 
+* Defines the AWS provider and region
+* Creates a Launch Configuration with user data to set up a simple web server.
+* Defines a security group and inbound rules for the EC2 instances.
+* Sets up an Auto Scaling Group with a minimum and maximum size, desired capacity, and EC2 instance placement in specific subnets.
+* Creates an Application Load Balancer (ALB).
+* Configures the ALB listener and target group.
+* Attaches the Auto Scaling Group to the ALB target group.
 
 ## Script 2 
 
