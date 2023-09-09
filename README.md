@@ -11,6 +11,18 @@ In this Terraform script file does the following:
 *  Defines an ECS task definition with your container image and configuration.
 *  Creates an ECS service that runs the task using Fargate launch type in the specified subnets and security group.
 
+## Elastic - Beanstalk
+In this Terraform script file does the following:
+
+*  Configures the AWS provider for the desired region.
+*  Creates an Elastic Beanstalk application named "my-example-app."
+*  Creates an Elastic Beanstalk environment named "my-example-environment" and associates it with the application.
+*  Specifies a platform for the environment using solution_stack_name. Be sure to select a suitable platform based on your application's 
+    requirements.
+*  Configures various settings for the environment, including instance type, memory limit, and environment type. Customize these settings to match 
+    your application's needs.
+*  Tags the environment with a name for easier identification.
+
 ## Script 1 
 
 This is for creation of EC2 Instance on AWS 
