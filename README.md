@@ -21,7 +21,7 @@ In this Terraform script file does the following:
     requirements.
 *  Configures various settings for the environment, including instance type, memory limit, and environment type. Customize these settings to match 
     your application's needs.
-*  Tags the environment with a name for easier identification.
+*  Tags the environment with a name for easier identification. 
 
 ## Script 1 
 
