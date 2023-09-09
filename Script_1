@@ -1,15 +1,92 @@
-## This is for creation of EC2 Instance on AWS 
-
-
 provider "aws" {
-  region = "us-east-1"
+  region = "us-east-1" # Change to your desired AWS region
 }
 
-resource "aws_instance" "example" {
-  ami           = "ami-12345678"
-  instance_type = "t2.micro"
+resource "aws_launch_configuration" "example" {
+  name_prefix          = "example-"
+  image_id             = "ami-12345678" # Replace with your desired AMI ID
+  instance_type        = "t2.micro"     # Replace with your desired instance type
+  security_groups      = [aws_security_group.example.id] # Define your security group
+  key_name             = "your-key-pair-name" # Replace with your key pair name
 
-  tags = {
-    Name = "CheckingScript"
+  user_data = <<-EOF
+              #!/bin/bash
+              echo "Hello, World!" > /var/www/html/index.html
+              EOF
+
+  lifecycle {
+    create_before_destroy = true
   }
+}
+
+resource "aws_security_group" "example" {
+  name        = "example"
+  description = "Example security group for EC2 instances"
+
+  # Define your security group rules here
+  # Example:
+  # inbound {
+  #   from_port   = 80
+  #   to_port     = 80
+  #   protocol    = "tcp"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
+}
+
+resource "aws_autoscaling_group" "example" {
+  name_prefix                 = "example-"
+  launch_configuration        = aws_launch_configuration.example.name
+  min_size                    = 2
+  max_size                    = 4
+  desired_capacity            = 2
+  vpc_zone_identifier         = ["subnet-12345678", "subnet-87654321"] # Replace with your subnet IDs
+  health_check_type           = "ELB"
+  force_delete                = true
+
+  tag {
+    key                 = "Name"
+    value               = "example-instance"
+    propagate_at_launch = true
+  }
+}
+
+resource "aws_lb" "example" {
+  name               = "example-lb"
+  internal           = false
+  load_balancer_type = "application"
+  subnets            = ["subnet-12345678", "subnet-87654321"] # Replace with your subnet IDs
+}
+
+resource "aws_lb_listener" "example" {
+  load_balancer_arn = aws_lb.example.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = aws_lb_target_group.example.arn
+    type             = "forward"
+  }
+}
+
+resource "aws_lb_target_group" "example" {
+  name        = "example-target-group"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = "vpc-12345678" # Replace with your VPC ID
+  target_type = "instance"
+
+  health_check {
+    path                = "/index.html"
+    port                = "80"
+    protocol            = "HTTP"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
+}
+
+resource "aws_autoscaling_attachment" "example" {
+  autoscaling_group_name = aws_autoscaling_group.example.name
+  alb_target_group_arn  = aws_lb_target_group.example.arn
 }
