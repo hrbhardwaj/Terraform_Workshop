@@ -16,3 +16,17 @@ In this Terraform script file does the following:
 This is for creation of EC2 Instance on AWS 
 
 ## Script 2 
+
+This Script for Creating S3 Bucket in AWS
+
+## Script 3 
+
+This Script is for creating VPC with Subnets 
+
+## Script 4 
+
+This is Script for RDS Database Instance:
+
+## Script 5 
+
+This Script for  IAM User and Policy:
