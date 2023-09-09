@@ -1,0 +1,47 @@
+This Terraform script does the following:
+
+*  Configures the AWS provider for the desired region.
+*  Creates an Elastic Beanstalk application named "my-example-app."
+*  Creates an Elastic Beanstalk environment named "my-example-environment" and associates it with the application.
+*  Specifies a platform for the environment using solution_stack_name. Be sure to select a suitable platform based on your application's requirements.
+*  Configures various settings for the environment, including instance type, memory limit, and environment type. Customize these settings to match 
+    your application's needs.
+*  Tags the environment with a name for easier identification.
+
+
+provider "aws" {
+  region = "us-east-1" # Change to your desired AWS region
+}
+
+resource "aws_elastic_beanstalk_application" "example" {
+  name = "my-example-app"
+}
+
+resource "aws_elastic_beanstalk_environment" "example" {
+  name                = "my-example-environment"
+  application         = aws_elastic_beanstalk_application.example.name
+  solution_stack_name = "64bit Amazon Linux 2 v5.4.0 running PHP 7.4" # Change this to your desired platform
+  wait_for_ready_timeout = "10m"
+  
+  setting {
+    namespace = "aws:autoscaling:launchconfiguration"
+    name      = "InstanceType"
+    value     = "t2.micro" # Change this to your desired instance type
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:container:php:phpini"
+    name      = "memory_limit"
+    value     = "512M" # Change this to your desired memory limit
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:environment"
+    name      = "EnvironmentType"
+    value     = "LoadBalanced" # Change this if you don't want a load-balanced environment
+  }
+
+  tags = {
+    Name = "MyExampleEnvironment"
+  }
+}
