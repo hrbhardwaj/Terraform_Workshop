@@ -35,6 +35,15 @@ In this Terraform script file does the following:
 * Configures the ALB listener and target group.
 * Attaches the Auto Scaling Group to the ALB target group.
 
+## Script for ElasticKubernetesCluster
+
+* I specify your AWS provider configuration with your desired region.
+* I use the terraform-aws-modules/eks/aws module to create the EKS cluster. Be sure to reference the module source from the Terraform Registry, and make sure you have it installed in your Terraform environment.
+* I set various parameters, such as the cluster name, Kubernetes version, VPC ID, and subnets. Replace these with your own values.
+* I define a node group called eks_nodes, which specifies the desired capacity, instance type, and other configurations for your worker nodes. Adjust these settings as needed.
+* I can add more advanced configurations like IAM roles, worker node security groups, and more depending on your requirements.
+
+
 ## Script 2 
 
 This Script for Creating S3 Bucket in AWS
